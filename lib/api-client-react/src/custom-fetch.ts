@@ -14,7 +14,7 @@ const DEFAULT_JSON_ACCEPT = "application/json, application/problem+json";
 // ---------------------------------------------------------------------------
 // Module-level configuration
 // ---------------------------------------------------------------------------
-
+//Juili 
 let _baseUrl: string | null = null;
 let _authTokenGetter: AuthTokenGetter | null = null;
 
