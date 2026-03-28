@@ -1,0 +1,178 @@
+Create a web application called "RespiraLoop" — a breath-driven biofeedback app.
+
+Core Concept:
+The user's breathing acts as both sensor and actuator for mood regulation.
+
+TECH STACK:
+Use HTML, CSS, JavaScript.
+Use Web Audio API for microphone input.
+Use simple backend database (Replit DB or lightweight JSON storage).
+
+CORE FEATURES:
+
+1. MICROPHONE BREATH DETECTION
+
+Ask user for microphone permission.
+
+Detect breath states:
+- Inhale (rising amplitude)
+- Exhale (falling amplitude)
+- Hold (very low amplitude / silence)
+
+Classify breathing in real time.
+
+---
+
+2. BREATH WAVE VISUALIZATION
+
+Create two waveforms:
+
+A. Reference Wave (Karaoke breathing pattern)
+This shows ideal breathing pattern.
+
+B. Live User Wave
+This is generated from microphone input.
+
+Display both waves stacked:
+
+Reference Wave (Top)
+User Breath Wave (Bottom)
+
+Add moving dot:
+A dot moves along reference wave timeline.
+
+User tries to match breathing with moving dot.
+
+Moving dot should move continuously based on timer.
+
+User breath wave updates in real time.
+
+---
+
+3. BREATH STATES VISUALIZATION
+
+Color coding:
+
+Inhale → Blue
+Hold → Purple
+Exhale → Teal
+
+Display label:
+"Inhale"
+"Hold"
+"Exhale"
+
+---
+
+4. MODES
+
+Add 4 breathing modes:
+
+Focus Mode
+Sleep Mode
+Yoga Mode
+Panic Calm Mode
+
+Each mode changes:
+
+Reference waveform shape:
+Focus → symmetric wave
+Sleep → long exhale
+Yoga → box breathing
+Panic → short inhale long exhale
+
+Also change sound mapping.
+
+---
+
+5. SOUND SONIFICATION
+
+Use Web Audio API oscillator.
+
+Map breath amplitude to sound:
+
+Inhale → rising pitch
+Exhale → falling pitch
+Hold → sustained tone
+
+Mode-based sound design:
+
+Focus → higher pitch
+Sleep → low ambient tone
+Yoga → harmonic tone
+Panic → descending calming tone
+
+---
+
+6. SESSION TRACKING
+
+Track:
+
+Session start time
+Session end time
+Session duration
+Mode selected
+
+Store per user session.
+
+---
+
+7. USER FEEDBACK
+
+After session show:
+
+Did this help you?
+Rate 1–5
+
+Would you recommend to a friend?
+Yes / No
+
+Add "Share link" button.
+
+---
+
+8. LIVE STATISTICS PANEL
+
+Add collapsible panel at bottom:
+
+Show:
+
+Total users
+Total sessions
+Average session duration
+Recommendation percentage
+
+Update statistics live.
+
+---
+
+9. USER IDENTIFICATION
+
+Generate simple anonymous user ID
+Store in browser local storage
+
+Track repeat users.
+
+---
+
+10. UI DESIGN
+
+Minimal calming UI
+Dark background
+Glowing wave animation
+Smooth transitions
+
+---
+
+11. FUTURE READY ARCHITECTURE
+
+Structure code to allow:
+
+AI breath classification later
+Driver breathing detection
+Advanced psychoacoustic sound design
+
+---
+
+Deploy app publicly
+Generate shareable link

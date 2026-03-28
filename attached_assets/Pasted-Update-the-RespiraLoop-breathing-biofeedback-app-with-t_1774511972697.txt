@@ -1,0 +1,226 @@
+Update the RespiraLoop breathing biofeedback app with the following improvements:
+
+------------------------------------------------
+1. MOVING DOT POSITION FIX
+------------------------------------------------
+
+Currently the moving dot appears on the "Your Breath" waveform.
+
+Fix:
+
+Moving dot should ONLY appear on the "Reference Breath" waveform.
+
+Implementation:
+
+- Separate two canvases:
+  - referenceCanvas (top)
+  - userBreathCanvas (bottom)
+
+Render moving dot ONLY in referenceCanvas.
+
+Example logic:
+
+drawReferenceWave()
+
+drawMovingDot(referenceWavePosition)
+
+drawUserWave() without dot
+
+Ensure dot follows reference waveform path.
+
+Dot should move smoothly using requestAnimationFrame.
+
+------------------------------------------------
+2. NOISE FILTERING FOR MICROPHONE INPUT
+------------------------------------------------
+
+Add filtering pipeline:
+
+Microphone Input
+↓
+Bandpass Filter
+↓
+Moving Average Smoothing
+↓
+Breath Detection
+
+Use Web Audio API filters:
+
+const filter = audioContext.createBiquadFilter();
+filter.type = "bandpass";
+filter.frequency.value = 600;
+filter.Q.value = 1;
+
+Connect:
+
+microphone → filter → analyser
+
+Add smoothing:
+
+smoothedAmplitude = 
+0.85 * previousAmplitude + 
+0.15 * currentAmplitude
+
+This reduces noise spikes.
+
+------------------------------------------------
+3. BREATH DETECTION LOGIC IMPROVEMENT
+------------------------------------------------
+
+Add threshold logic:
+
+if amplitude > inhaleThreshold:
+state = inhale
+
+if amplitude decreasing:
+state = exhale
+
+if amplitude < holdThreshold:
+state = hold
+
+Example thresholds:
+
+inhaleThreshold = 0.05
+holdThreshold = 0.02
+
+Add hysteresis:
+
+Prevent rapid switching.
+
+------------------------------------------------
+4. SOUND ENGINE IMPROVEMENTS
+------------------------------------------------
+
+Replace raw oscillator tone with layered ambient sound.
+
+Architecture:
+
+Background Ambient Layer
++
+Breath Modulation Layer
++
+Soft Harmonic Layer
+
+------------------------------------------------
+5. DIFFERENT BACKGROUND SOUND PER MODE
+------------------------------------------------
+
+Focus Mode:
+
+Soft rhythmic ambient
+Low pulsing background
+
+Sleep Mode:
+
+Ocean / wind ambient
+
+Yoga Mode:
+
+Soft harmonic drone
+
+Panic Mode:
+
+Warm pad ambience
+
+Use looping audio files:
+
+audio.loop = true
+
+------------------------------------------------
+6. SMOOTH SOUND TRANSITIONS
+------------------------------------------------
+
+Implement smoothing:
+
+currentVolume = 
+0.9 * previousVolume + 
+0.1 * targetVolume
+
+currentPitch = 
+0.9 * previousPitch + 
+0.1 * targetPitch
+
+This avoids abrupt changes.
+
+------------------------------------------------
+7. FADE OUT TO PREVENT SOUND LEAKAGE
+------------------------------------------------
+
+When session ends:
+
+gainNode.gain.linearRampToValueAtTime(
+0,
+audioContext.currentTime + 0.5
+)
+
+Then stop audio:
+
+oscillator.stop()
+
+Also stop background audio.
+
+------------------------------------------------
+8. BREATH TO SOUND MODULATION
+------------------------------------------------
+
+Instead of harsh tones:
+
+Use:
+
+Inhale → increase ambience brightness
+Exhale → decrease brightness
+Hold → stable ambient
+
+Use lowpass filter modulation:
+
+filter.frequency.value = 
+base + amplitude * range
+
+------------------------------------------------
+9. ADD LOW PASS FILTER FOR SOFT SOUND
+------------------------------------------------
+
+const soundFilter = 
+audioContext.createBiquadFilter()
+
+soundFilter.type = "lowpass"
+soundFilter.frequency.value = 800
+
+Route sound through filter.
+
+------------------------------------------------
+10. MOVING DOT SMOOTH ANIMATION
+------------------------------------------------
+
+Use requestAnimationFrame:
+
+function animate() {
+dotPosition += speed
+
+drawReferenceWave()
+drawMovingDot()
+
+requestAnimationFrame(animate)
+}
+
+------------------------------------------------
+11. ADD SOUND TOGGLE BUTTON
+------------------------------------------------
+
+Allow:
+
+Mute / Unmute
+
+User can disable sound.
+
+------------------------------------------------
+12. IMPROVE BREATH VISUALIZATION
+------------------------------------------------
+
+Add glow to reference wave
+
+Add smoothing to user wave
+
+------------------------------------------------
+Ensure performance optimized
+Ensure mobile compatible

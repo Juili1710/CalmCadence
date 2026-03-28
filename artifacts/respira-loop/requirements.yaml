@@ -1,0 +1,14 @@
+packages:
+  "framer-motion": "Smooth animations and transitions for the visualizer and UI"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility function to efficiently merge Tailwind CSS classes"
+
+images:
+  - path: "artifacts/respira-loop/public/images/hero-bg.png"
+    description: "Dark abstract deep navy and teal glowing gradient mesh with very subtle underwater light rays, calming minimal background, soft and ethereal"
+    aspect_ratio: "16:9"
+
+notes:
+  - React Query hooks are imported from @workspace/api-client-react
+  - AudioContext is required for microphone access; browser policy requires user interaction before starting it.
+  - Generates UUID for anonymous tracking and stores in localStorage.

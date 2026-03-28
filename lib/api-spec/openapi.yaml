@@ -1,0 +1,168 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: RespiraLoop API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: sessions
+    description: Breath session tracking
+  - name: stats
+    description: Global statistics
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /sessions:
+    post:
+      operationId: createSession
+      tags: [sessions]
+      summary: Create a new breath session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSession"
+      responses:
+        "201":
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+  /sessions/feedback:
+    post:
+      operationId: submitFeedback
+      tags: [sessions]
+      summary: Submit feedback for a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitFeedback"
+      responses:
+        "200":
+          description: Feedback saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+  /stats:
+    get:
+      operationId: getStats
+      tags: [stats]
+      summary: Get global statistics
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    CreateSession:
+      type: object
+      properties:
+        userId:
+          type: string
+        mode:
+          type: string
+          enum: [focus, sleep, yoga, panic]
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        durationSeconds:
+          type: integer
+      required:
+        - userId
+        - mode
+        - startedAt
+        - endedAt
+        - durationSeconds
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: string
+        mode:
+          type: string
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        durationSeconds:
+          type: integer
+        ratingHelpful:
+          type: integer
+          nullable: true
+        wouldRecommend:
+          type: boolean
+          nullable: true
+      required:
+        - id
+        - userId
+        - mode
+        - startedAt
+        - endedAt
+        - durationSeconds
+    SubmitFeedback:
+      type: object
+      properties:
+        sessionId:
+          type: integer
+        ratingHelpful:
+          type: integer
+          minimum: 1
+          maximum: 5
+        wouldRecommend:
+          type: boolean
+      required:
+        - sessionId
+        - ratingHelpful
+        - wouldRecommend
+    Stats:
+      type: object
+      properties:
+        totalUsers:
+          type: integer
+        totalSessions:
+          type: integer
+        avgDurationSeconds:
+          type: number
+        recommendPercent:
+          type: number
+      required:
+        - totalUsers
+        - totalSessions
+        - avgDurationSeconds
+        - recommendPercent

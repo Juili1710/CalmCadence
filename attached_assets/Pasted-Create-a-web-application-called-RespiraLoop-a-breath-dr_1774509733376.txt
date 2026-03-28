@@ -1,0 +1,228 @@
+Create a web application called "RespiraLoop" — a breath-driven biofeedback app.
+
+Core Concept:
+User breathing acts as both sensor and actuator for mood regulation.
+
+TECH STACK:
+Use HTML, CSS, JavaScript
+Use Web Audio API for microphone input
+Use Canvas or SVG for waveform visualization
+Use local storage + lightweight backend for session tracking
+
+--------------------------------
+
+FEATURE 1: MICROPHONE INPUT
+
+Ask user for microphone permission
+
+Use Web Audio API:
+
+navigator.mediaDevices.getUserMedia({ audio: true })
+
+Create microphone analyzer
+
+Extract amplitude values continuously
+
+--------------------------------
+
+FEATURE 2: BREATH DETECTION LOGIC
+
+Detect 3 states:
+
+Inhale
+Exhale
+Hold
+
+Use amplitude smoothing:
+
+smoothedAmplitude = 0.9 * previous + 0.1 * current
+
+If amplitude increasing:
+state = inhale
+
+If amplitude decreasing:
+state = exhale
+
+If amplitude below threshold:
+state = hold
+
+Threshold example:
+
+holdThreshold = 0.02
+
+--------------------------------
+
+FEATURE 3: WAVE MATHEMATICS
+
+Reference breathing wave:
+
+Use sine wave:
+
+y = A * sin(2πft)
+
+Where:
+
+A = amplitude
+f = frequency
+t = time
+
+Different modes use different wave parameters
+
+Focus Mode:
+
+y = sin(2πt / 8)
+
+Sleep Mode:
+
+Long exhale:
+
+y = sin(2πt / 12)
+
+Yoga Box Breathing:
+
+Use piecewise wave:
+
+Inhale ramp
+Hold flat
+Exhale ramp
+Hold flat
+
+--------------------------------
+
+FEATURE 4: DUAL WAVE DISPLAY
+
+Display:
+
+Reference wave (top)
+User breath wave (bottom)
+
+User wave generated from microphone amplitude
+
+--------------------------------
+
+FEATURE 5: MOVING DOT
+
+Create moving dot along reference wave
+
+dotPosition = time % waveLength
+
+Move dot continuously
+
+User tries to match breathing to dot
+
+--------------------------------
+
+FEATURE 6: SOUND SONIFICATION
+
+Use Web Audio API oscillator:
+
+const oscillator = audioContext.createOscillator()
+
+Map amplitude to pitch:
+
+frequency = baseFrequency + (amplitude * scale)
+
+Example:
+
+Focus mode:
+
+baseFrequency = 400 Hz
+
+Sleep mode:
+
+baseFrequency = 200 Hz
+
+Mapping:
+
+Inhale:
+
+frequency increases
+
+Exhale:
+
+frequency decreases
+
+Hold:
+
+sustained tone
+
+--------------------------------
+
+FEATURE 7: MODE SWITCHING
+
+Modes:
+
+Focus
+Sleep
+Yoga
+Panic
+
+Each mode changes:
+
+Wave parameters
+Sound parameters
+Timing
+
+--------------------------------
+
+FEATURE 8: SESSION TRACKING
+
+Track:
+
+Session start time
+Session duration
+Mode selected
+
+Store in local storage:
+
+sessionData = {
+duration,
+mode,
+timestamp
+}
+
+--------------------------------
+
+FEATURE 9: USER FEEDBACK
+
+After session ask:
+
+Rate 1–5
+
+Would recommend to friend?
+
+Share link button
+
+--------------------------------
+
+FEATURE 10: LIVE STATS PANEL
+
+Collapsible panel bottom
+
+Display:
+
+Total sessions
+Average duration
+Recommend percentage
+
+--------------------------------
+
+FEATURE 11: UI DESIGN
+
+Minimal dark theme
+Glowing breathing wave
+Smooth animation
+
+--------------------------------
+
+FEATURE 12: FUTURE READY STRUCTURE
+
+Separate files:
+
+breathDetection.js
+waveEngine.js
+soundEngine.js
+uiController.js
+
+Deploy publicly
+Generate shareable link

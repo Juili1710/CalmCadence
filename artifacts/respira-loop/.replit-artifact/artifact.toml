@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "RespiraLoop"
+version = "1.0.0"
+id = "artifacts/respira-loop"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22534
+
+[services.development]
+run = "pnpm --filter @workspace/respira-loop run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/respira-loop", "run", "build" ]
+publicDir = "artifacts/respira-loop/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22534"
+BASE_PATH = "/"
