@@ -1,7 +1,7 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import pinoHttp from "pino-http";
+import { pinoHttp } from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
